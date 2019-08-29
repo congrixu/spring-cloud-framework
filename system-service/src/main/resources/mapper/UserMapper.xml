@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rixuv5.system.dao.UserDao">
+  <select id="findAll" parameterType="com.rixuv5.system.model.User" resultType="com.rixuv5.system.model.User" >
+       SELECT
+			u.ID AS id,
+			u.PASSWORD,
+			u.USER_NAME AS username,
+			u.REAL_NAME AS realName
+		FROM
+			T_USER u
+		WHERE
+			1 = 1
+		<if test="userName !=null ">
+		  AND u.USER_NAME LIKE "%"#{userName}"%"
+		</if>
+		<if test="realName !=null ">
+		  AND u.REAL_NAME LIKE "%"#{realName}"%"
+		</if>
+    </select>
+</mapper>
+
