@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rixuv5.system.dao.UserDao;
 import com.rixuv5.system.dao.UserMapper;
 import com.rixuv5.system.model.User;
 
@@ -18,9 +17,6 @@ public class UserController {
 	@Autowired
 	private UserMapper userMapper;
 
-	@Autowired
-	private UserDao userDao;
-
 	@RequestMapping("/get/{id}")
 	public User get(@PathVariable("id") Integer id) {
 		User result = this.userMapper.selectById(id);
@@ -29,7 +25,7 @@ public class UserController {
 
 	@RequestMapping("/find")
 	public List<User> find() {
-		List<User> users = userDao.findAll(new User());
+		List<User> users = userMapper.findAll(new User());
 		return users;
 	}
 }
