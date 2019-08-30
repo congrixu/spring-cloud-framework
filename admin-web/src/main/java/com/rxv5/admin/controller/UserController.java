@@ -4,9 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rixuv5.vo.Page;
 import com.rxv5.system.service.UserApiService;
 import com.rxv5.system.vo.UserVo;
 
@@ -26,5 +29,11 @@ public class UserController {
 	public List<UserVo> find() {
 		List<UserVo> users = userApiService.find(new UserVo());
 		return users;
+	}
+
+	@RequestMapping("/query")
+	public Page<UserVo> query(@RequestBody(required = false) UserVo search, @RequestParam("pageNum") Integer pageNum,
+			@RequestParam("pageSize") Integer pageSize) {
+		return userApiService.query(new UserVo(), pageNum, pageSize);
 	}
 }

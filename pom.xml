@@ -27,6 +27,7 @@
 	  <module>system-service</module>
 	  <module>system-api</module>
 	  <module>admin-web</module>
+	  <module>common-core</module>
 	</modules>
 	<build>
 		<plugins>
@@ -36,6 +37,22 @@
 			</plugin>
 		</plugins>
 	</build>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			 <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>1.2.12</version>
+            </dependency>
+		</dependencies>
+	</dependencyManagement>
 	<repositories>
 	    <repository>
 	        <id>alimaven</id>
@@ -43,5 +60,4 @@
 	        <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
 	    </repository>
 	</repositories>
-
 </project>

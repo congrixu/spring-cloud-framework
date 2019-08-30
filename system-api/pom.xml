@@ -10,6 +10,11 @@
   <artifactId>system-api</artifactId>
 	<dependencies>
 		<dependency>
+ 			<groupId>com.rxv5</groupId>
+ 			<artifactId>common-core</artifactId>
+ 			<version>${v.version}</version>
+ 		</dependency>
+		<dependency>
 		    <groupId>org.springframework.cloud</groupId>
 		    <artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
