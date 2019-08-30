@@ -1,4 +1,4 @@
-package com.rixuv5.vo;
+package com.rxv5.vo;
 
 import java.io.Serializable;
 import java.util.List;

@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.rixuv5.vo.Page;
 import com.rxv5.system.vo.UserVo;
+import com.rxv5.vo.Page;
 
 @FeignClient(name = "system-service")
 public interface UserApiService {
