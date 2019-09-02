@@ -1,4 +1,4 @@
-package com.rixuv5.system.model;
+package com.rxv5.system.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;

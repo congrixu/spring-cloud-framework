@@ -1,11 +1,11 @@
-package com.rixuv5;
+package com.rxv5;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
-@MapperScan("com.rixuv5.system.dao")
+@MapperScan("com.rxv5.system.dao")
 @SpringBootApplication
 //@EnableDiscoveryClient
 @EnableEurekaClient

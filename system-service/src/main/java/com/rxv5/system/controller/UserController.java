@@ -1,4 +1,4 @@
-package com.rixuv5.system.controller;
+package com.rxv5.system.controller;
 
 import java.util.List;
 
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.rixuv5.system.dao.UserMapper;
-import com.rixuv5.system.model.User;
+import com.rxv5.system.dao.UserMapper;
+import com.rxv5.system.model.User;
 
 @RestController
 @RequestMapping("/system/user")
