@@ -1,0 +1,19 @@
+{
+  "name": "admin-web",
+  "version": "0.0.1",
+  "homepage": "https://github.com/congrixu/spring-cloud-framework",
+  "authors": [
+    "congrixu <congrixu@nalipei.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "admin-lte": "~2.4.18"
+  }
+}
