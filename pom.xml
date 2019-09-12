@@ -31,7 +31,9 @@
 	  <module>admin-web</module>
 	  <module>common-core</module>
 	  <module>dbscripts</module>
-	</modules>
+    <module>activiti-workflow</module>
+    <module>workflow-service</module>
+  </modules>
 	<build>
 		<plugins>
 			<plugin>
