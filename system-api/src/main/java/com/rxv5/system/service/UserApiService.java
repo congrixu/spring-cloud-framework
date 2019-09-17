@@ -7,10 +7,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.rxv5.system.hystrix.UserApiServiceHystrix;
 import com.rxv5.system.vo.UserVo;
 import com.rxv5.vo.Page;
 
-@FeignClient(name = "system-service")
+@FeignClient(name = "system-service", fallback = UserApiServiceHystrix.class)
 public interface UserApiService {
 
 	@RequestMapping(value = "/system/user/find")
