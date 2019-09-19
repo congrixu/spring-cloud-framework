@@ -80,4 +80,30 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+		<!-- resources>
+			<resource>
+				<filtering>false</filtering>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+				<targetPath>src/main/resources</targetPath>
+			</resource>
+			<resource>
+				<filtering>false</filtering>
+				<directory>bower_components</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+				<targetPath>src/main/resources/static/lib</targetPath>
+			</resource>
+		</resources -->
+	</build>
 </project>
