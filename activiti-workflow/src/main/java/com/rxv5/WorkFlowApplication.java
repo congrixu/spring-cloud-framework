@@ -12,7 +12,9 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
  *
  */
 @MapperScan("com.rxv5.workflow.dao")
-@SpringBootApplication
+@SpringBootApplication(exclude = {
+		org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class,
+		org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration.class })
 @EnableEurekaClient
 public class WorkFlowApplication {
 
