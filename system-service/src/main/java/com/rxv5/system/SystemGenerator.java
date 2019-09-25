@@ -95,7 +95,7 @@ public class SystemGenerator {
 		strategyConfig.setTablePrefix("T_");
 		strategyConfig.setInclude(tableNames);// 需要生成的表
 		strategyConfig.setEntityTableFieldAnnotationEnable(true);//是否生成实体时，生成字段注解
-		strategyConfig.setEntitySerialVersionUID(false);
+		//strategyConfig.setEntitySerialVersionUID(false);
 		strategyConfig.setCapitalMode(true);//是否大写命名
 		// .setExclude(new String[]{"gente2"}) // 排除生成的表
 		// 自定义实体父类

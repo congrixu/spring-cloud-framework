@@ -48,6 +48,11 @@
 			<artifactId>mybatis-plus-boot-starter</artifactId>
 			<version>${mybatis-plus.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper-spring-boot-starter</artifactId>
+			<version>1.2.10</version>
+		</dependency>
 		<!-- druid -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
@@ -79,23 +84,10 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-		<!-- resources>
-			<resource>
-				<filtering>false</filtering>
-				<directory>src/main/resources</directory>
-				<includes>
-					<include>**/*</include>
-				</includes>
-				<targetPath>src/main/resources</targetPath>
-			</resource>
-			<resource>
-				<filtering>false</filtering>
-				<directory>bower_components</directory>
-				<includes>
-					<include>**/*</include>
-				</includes>
-				<targetPath>src/main/resources/static/lib</targetPath>
-			</resource>
-		</resources -->
+		<!-- resources> <resource> <filtering>false</filtering> <directory>src/main/resources</directory> 
+			<includes> <include>**/*</include> </includes> <targetPath>src/main/resources</targetPath> 
+			</resource> <resource> <filtering>false</filtering> <directory>bower_components</directory> 
+			<includes> <include>**/*</include> </includes> <targetPath>src/main/resources/static/lib</targetPath> 
+			</resource> </resources -->
 	</build>
 </project>

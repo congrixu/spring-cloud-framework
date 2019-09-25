@@ -1,0 +1,30 @@
+<div class="box-body">
+  <table id="process_def_table" class="table table-bordered table-hover">
+    <thead>
+	    <tr>
+	      <th>流程定义ID</th>
+	      <th>流程部署ID</th>
+	      <th>名称</th>
+	      <th>KEY</th>
+	      <th>版本</th>
+	      <th>XML</th>
+	      <th>图片</th>
+	      <th>部署时间</th>
+	    </tr>
+    </thead>
+    <tbody>
+	    <tr  <tr th:each="pd:${page.list}">>
+	      <td th:text="${pd.processDefinitionId}"></td>
+	      <td th:text="${pd.deploymentId}"></td>
+	      <td th:text="${pd.name}"></td>
+	      <td th:text="${pd.key}"></td>
+	      <td th:text="${pd.version}"></td>
+	      <td th:text="${pd.resourceName}"></td>
+	      <td th:text="${pd.diagramResourceName}"></td>
+	      <td th:text="${pd.deploymentTime}"></td>
+	    </tr>
+    </tbody>
+  </table>
+</div>
+<!-- /.box-body -->
+<script th:src="@{js/workflow/pd/list.js}"></script>

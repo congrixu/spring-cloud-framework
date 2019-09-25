@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rxv5.workflow.dao.ProcessDefinitionMapper">
+  <select id="select" parameterType="com.rxv5.workflow.vo.ProcessDefinitionVo" resultType="com.rxv5.workflow.vo.ProcessDefinitionVo" >
+	SELECT
+		def.ID_ AS processDefinitionId,
+		def.DEPLOYMENT_ID_ AS deploymentId,
+		def.NAME_ AS `name`,
+		def.KEY_ AS `key`,
+		def.VERSION_ AS `version`,
+		def.RESOURCE_NAME_ AS resourceName,
+		def.DGRM_RESOURCE_NAME_ AS diagramResourceName,
+		dep.DEPLOY_TIME_ AS deploymentTime
+	FROM
+		act_re_procdef def
+	LEFT JOIN act_re_deployment dep ON def.DEPLOYMENT_ID_ = dep.ID_
+	WHERE
+		1 = 1
+	  <if test="key !=null ">
+	  AND def.KEY_ LIKE "%"#{key}"%"
+	  </if>
+	  <if test="realName !=null ">
+	  AND def.NAME_ LIKE "%"#{name}"%"
+	  </if>
+  </select>
+</mapper>
+
