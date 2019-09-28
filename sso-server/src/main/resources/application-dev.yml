@@ -1,0 +1,26 @@
+server:
+   port: 3000
+  
+spring:
+  application:
+    name: nlpcloud-authz-service
+  security:
+      oauth2:
+        jwt:
+          signingKey: qw#$%AeJr(Lew$%$^&&DNcdtyop/.,%&.nalipei.com
+          expiration: 10800
+      client:
+        client-id: nalipei-client
+        client-secret: nalipei-secret
+        user-authorization-uri: http://localhost:3000/oauth/authorize
+        grant-type: password
+        client.scope: all
+        access-token-uri: http://localhost:3000/oauth/token
+      authorization:
+        check-token-access: http://localhost:3000/oauth/check_token
+      resource:
+        token-info-uri: http://localhost:3000/oauth/check_token
+
+logging:
+   level:
+     ROOT: DEBUG

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.rxv5</groupId>
 	<artifactId>spring-cloud-framework</artifactId>
@@ -10,7 +11,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.1.8.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
 	<properties>
@@ -23,6 +24,11 @@
 		<!-- mybatis-plus使用3.1.0以上版本会出现兼容问题 -->
 		<mybatis-plus.version>3.1.0</mybatis-plus.version>
 		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+		<security.oauth.version>2.3.6.RELEASE</security.oauth.version>
+		<spring-security-jwt.version>1.0.10.RELEASE</spring-security-jwt.version>
+		<fastjson.version>1.2.61</fastjson.version>
+		<guava.version>28.1-jre</guava.version>
+		<commons-lang3.version>3.9</commons-lang3.version>
 	</properties>
 
 	<modules>
@@ -34,14 +40,25 @@
 		<module>dbscripts</module>
 		<module>activiti-workflow</module>
 		<module>workflow-service</module>
-    <module>authentication-server</module>
-  </modules>
+		<module>sso-server</module>
+		<module>authentication-server</module>
+	</modules>
 	<dependencies>
 		<!-- 热启动，修改会自动重启 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons-lang3.version}</version>
 		</dependency>
 	</dependencies>
 	<build>
@@ -68,6 +85,21 @@
 				<groupId>com.github.pagehelper</groupId>
 				<artifactId>pagehelper-spring-boot-starter</artifactId>
 				<version>1.2.12</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security.oauth</groupId>
+				<artifactId>spring-security-oauth2</artifactId>
+				<version>${security.oauth.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-jwt</artifactId>
+				<version>${spring-security-jwt.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
