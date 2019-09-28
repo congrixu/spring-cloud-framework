@@ -44,10 +44,10 @@ public class AuthenticationServerConfig extends AuthorizationServerConfigurerAda
 	 * jwt 对称加密密钥
 	 */
 	@Value("${spring.security.oauth2.jwt.signingKey}")
-	private String signingKey = "qw#$%AeJr(Lew$%$^&&DNcdtyop/.,%&.nalipei.com";
+	private String signingKey ;
 
 	@Value("${spring.security.oauth2.jwt.expiration}")
-	private Integer expiration = 3600;
+	private Integer expiration ;
 
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
@@ -59,8 +59,8 @@ public class AuthenticationServerConfig extends AuthorizationServerConfigurerAda
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 		clients.inMemory()// 配置内存中，也可以是数据库
-				.withClient("nalipei-client")// clientid
-				.secret(passwordEncoder.encode("nalipei-secret"))
+				.withClient("rxv5-client")// clientid
+				.secret(passwordEncoder.encode("rxv5-secret"))
 				.accessTokenValiditySeconds(expiration)// token有效时间
 																				// 秒
 				// .authorizedGrantTypes("refresh_token", "password",
