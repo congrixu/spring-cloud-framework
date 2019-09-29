@@ -17,7 +17,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	/**
 	 * 需要放行的URL
 	 */
-	private static final String[] AUTH_WHITELIST = {"/login", "/oauth/token" };
+	private static final String[] AUTH_WHITELIST = {"/login" };
 
 	@Autowired
 	private AuthenticationSuccessHandler authentSuccessHandler;

@@ -28,6 +28,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			roles = roleSet.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 		}
 		User user = new User(userVo.getLoginId(), userVo.getPasswd(), roles);*/
+		if(!username.equals("admin")){
+			throw new UsernameNotFoundException(username);
+		}
+	
 		List<SimpleGrantedAuthority> roles =Lists.newArrayList();
 		User user = new User("admin", "$2a$10$SQTiXRpMRn0Wp4Hn2lc9iO7WzBz1DyShaBm.6OjFUV4NrymUerBn.", roles);
 		return user;

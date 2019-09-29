@@ -26,7 +26,11 @@ public class WebServerSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		http.csrf().disable().anonymous().disable().authorizeRequests().antMatchers("/login").permitAll();
+		http.csrf().disable();
+		http.anonymous().disable();
+		http.authorizeRequests().antMatchers("/login").permitAll();
+		//http.requestMatchers().antMatchers("/oauth/**");
+		//http.authorizeRequests().antMatchers("/oauth/**").authenticated();
 	}
 
 	/**
