@@ -11,8 +11,9 @@ spring:
   security:
       oauth2:
         jwt:
-          signingKey: qw#$%AeJr(Lew$%$^&&DNcdtyop/.,%&.rxv5.com
-          expiration: 10800
+          signingKey: qw$c%AeJr(Lew$%$^&&DNcdtyop/.,%&.rxv5.com
+          #过期时间，单位(分)
+          expiration: 30
       client:
         client-id: nalipei-client
         client-secret: nalipei-secret

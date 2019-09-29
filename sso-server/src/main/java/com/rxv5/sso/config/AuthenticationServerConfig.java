@@ -65,8 +65,7 @@ public class AuthenticationServerConfig extends AuthorizationServerConfigurerAda
 		clients.inMemory()// 配置内存中，也可以是数据库
 				.withClient("rxv5-client")// clientid
 				.secret(passwordEncoder.encode("rxv5-secret"))
-				.accessTokenValiditySeconds(expiration)// token有效时间
-																				// 秒
+				.accessTokenValiditySeconds((int)TimeUnit.MINUTES.toSeconds(expiration))// token有效时间 秒
 				// .authorizedGrantTypes("refresh_token", "password",
 				// "authorization_code")//token模式
 				.authorizedGrantTypes("password","refresh_token")// token模式

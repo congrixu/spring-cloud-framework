@@ -6,7 +6,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 
+import com.rxv5.sso.exception.CustomAuthExceptionHandler;
 import com.rxv5.sso.oauth2.AuthenticationFailHandler;
 import com.rxv5.sso.oauth2.AuthenticationSuccessHandler;
 
@@ -17,7 +19,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	/**
 	 * 需要放行的URL
 	 */
-	private static final String[] AUTH_WHITELIST = {"/login" };
+	private static final String[] AUTH_WHITELIST = { "/login" };
 
 	@Autowired
 	private AuthenticationSuccessHandler authentSuccessHandler;
@@ -25,14 +27,22 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	@Autowired
 	private AuthenticationFailHandler authenticationFailHandler;
 
+	@Autowired
+	private CustomAuthExceptionHandler customAuthExceptionHandler;
+
+	@Override
+	public void configure(ResourceServerSecurityConfigurer resources) {
+		resources.stateless(false).accessDeniedHandler(customAuthExceptionHandler)
+				.authenticationEntryPoint(customAuthExceptionHandler);
+	}
+
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll();
 		http.authorizeRequests().anyRequest().authenticated(); // 所有请求需要身份认证
-		http.formLogin().permitAll().usernameParameter("username")
-				.passwordParameter("password").successHandler(authentSuccessHandler)
-				.failureHandler(authenticationFailHandler);
+		http.formLogin().permitAll().usernameParameter("username").passwordParameter("password")
+				.successHandler(authentSuccessHandler).failureHandler(authenticationFailHandler);
 	}
 }
