@@ -4,6 +4,10 @@ server:
 spring:
   application:
     name: nlpcloud-authz-service
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
   security:
       oauth2:
         jwt:

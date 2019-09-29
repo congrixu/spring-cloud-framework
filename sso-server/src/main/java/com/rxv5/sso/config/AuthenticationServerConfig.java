@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,10 +23,10 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 import com.rxv5.sso.exception.CustomWebResponseExceptionTranslator;
 import com.rxv5.sso.oauth2.CustomTokenEnhancer;
+import com.rxv5.sso.oauth2.MyRedisTokenStore;
 
 @Configuration
 @EnableAuthorizationServer
@@ -39,6 +40,9 @@ public class AuthenticationServerConfig extends AuthorizationServerConfigurerAda
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+    RedisConnectionFactory redisConnectionFactory;
 
 	/**
 	 * jwt 对称加密密钥
@@ -110,7 +114,9 @@ public class AuthenticationServerConfig extends AuthorizationServerConfigurerAda
 	 */
 	@Bean
 	public TokenStore tokenStore() {
-		return new JwtTokenStore(accessTokenConverter());
+		//return new JwtTokenStore(accessTokenConverter());
+		//return new RedisTokenStore(redisConnectionFactory);//报错
+		return new MyRedisTokenStore(redisConnectionFactory);
 	}
 
 	/**
