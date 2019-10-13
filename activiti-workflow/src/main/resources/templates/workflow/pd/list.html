@@ -1,30 +1,56 @@
-<div class="box-body">
-  <table id="process_def_table" class="table table-bordered table-hover">
-    <thead>
-	    <tr>
-	      <th>流程定义ID</th>
-	      <th>流程部署ID</th>
-	      <th>名称</th>
-	      <th>KEY</th>
-	      <th>版本</th>
-	      <th>XML</th>
-	      <th>图片</th>
-	      <th>部署时间</th>
-	    </tr>
-    </thead>
-    <tbody>
-	    <tr  <tr th:each="pd:${page.list}">>
-	      <td th:text="${pd.processDefinitionId}"></td>
-	      <td th:text="${pd.deploymentId}"></td>
-	      <td th:text="${pd.name}"></td>
-	      <td th:text="${pd.key}"></td>
-	      <td th:text="${pd.version}"></td>
-	      <td th:text="${pd.resourceName}"></td>
-	      <td th:text="${pd.diagramResourceName}"></td>
-	      <td th:text="${pd.deploymentTime}"></td>
-	    </tr>
-    </tbody>
-  </table>
+<section class="content">
+<div class="row">
+	<div class="col-xs-12">
+		<div class="box">
+		    <div class="box-header">
+              <h3 class="box-title">流程定义</h3>
+              <div class="col-md-12">
+			  	<div class="col-md-9"></div>
+			  	<div class="col-md-1">
+			  		<button id="search_btn" type="button" class="btn btn-block btn-primary">
+			  			<i class="fa fa-search"></i>查询
+					</button>
+			  	</div>
+			  	<div class="col-md-2">
+			  		<button id="deploy_btn" type="button" class="btn btn-block btn-primary">
+			  			<i class="fa fa-upload"></i>部署流程定义
+					</button>
+			  	</div>
+			  </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+			  <table id="process_def_table" class="table table-bordered table-hover dataTable">
+			    <thead>
+				    <tr>
+				      <th>流程定义ID</th>
+				      <th>流程部署ID</th>
+				      <th>名称</th>
+				      <th>KEY</th>
+				      <th>版本</th>
+				      <th>XML</th>
+				      <th>图片</th>
+				      <th>部署时间</th>
+				    </tr>
+			    </thead>
+			    <tbody>
+				    <tr th:each="pd:${page.list}">
+				      <td th:text="${pd.processDefinitionId}"></td>
+				      <td th:text="${pd.deploymentId}"></td>
+				      <td th:text="${pd.name}"></td>
+				      <td th:text="${pd.key}"></td>
+				      <td th:text="${pd.version}"></td>
+				      <td th:text="${pd.resourceName}"></td>
+				      <td th:text="${pd.diagramResourceName}"></td>
+				      <td th:text="${#dates.format(pd.deploymentTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+				    </tr>
+			    </tbody>
+			  </table>
+			</div>
+			<!-- /.box-body -->
+		</div>
+		<!-- /.box -->
+	</div>
 </div>
-<!-- /.box-body -->
+</section>
 <script th:src="@{js/workflow/pd/list.js}"></script>

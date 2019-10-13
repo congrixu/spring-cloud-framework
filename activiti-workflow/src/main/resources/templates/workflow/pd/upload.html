@@ -1,0 +1,18 @@
+<div id="file_upload_modal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">上传文件</h4>
+      </div>
+      <div class="modal-body">
+         <div id="dropz_div" class="dropzone"></div>
+      </div>
+      <div class="modal-footer">
+        <button id="file_upload_cancel_btn" type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button id="file_upload_submit_btn" type="button" class="btn btn-primary">上传</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script th:src="@{js/workflow/pd/upload.js}"></script>

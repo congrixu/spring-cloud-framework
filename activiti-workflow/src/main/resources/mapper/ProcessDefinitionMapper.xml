@@ -22,6 +22,7 @@
 	  <if test="realName !=null ">
 	  AND def.NAME_ LIKE "%"#{name}"%"
 	  </if>
+	ORDER BY dep.DEPLOY_TIME_ DESC
   </select>
 </mapper>
 
