@@ -1,9 +1,11 @@
 package com.rxv5.workflow.controller;
 
+import java.io.InputStream;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.servlet.ServletOutputStream;
+
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,9 +31,7 @@ import com.rxv5.workflow.vo.ProcessDefinitionVo;
  */
 @Controller
 @RequestMapping("/workflow/pd")
-public class ProcessDefinitionController {
-
-    Logger logger = LoggerFactory.getLogger(getClass());
+public class ProcessDefinitionController extends BaseController {
 
     @Autowired
     private ProcessDefinitionMapper mapper;
@@ -70,6 +70,33 @@ public class ProcessDefinitionController {
         boolean bool = processDefinitionService.deploy(file);
         result.setSuccess(bool);
         return result;
+    }
+
+    /**
+     * 查询XML或者流程图
+     * 
+     * @param deploymentId
+     * @param resourceName
+     *            xml名称(act_re_procdef.RESOURCE_NAME_)
+     *            或者图片名称(act_re_procdef.DGRM_RESOURCE_NAME_)
+     * @throws Exception
+     */
+    @GetMapping("/load-rsource")
+    public void loadResource(@RequestParam String deploymentId,
+            @RequestParam String resourceName) throws Exception {
+        try {
+            InputStream resourceAsStream = processDefinitionService
+                    .getRepositoryService()
+                    .getResourceAsStream(deploymentId, resourceName);
+            byte[] byteArray = IOUtils.toByteArray(resourceAsStream);
+            ServletOutputStream servletOutputStream = response
+                    .getOutputStream();
+            servletOutputStream.write(byteArray, 0, byteArray.length);
+            servletOutputStream.flush();
+            servletOutputStream.close();
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
     }
 
 }

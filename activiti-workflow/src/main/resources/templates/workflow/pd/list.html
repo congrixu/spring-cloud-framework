@@ -4,47 +4,89 @@
 		<div class="box">
 		    <div class="box-header">
               <h3 class="box-title">流程定义</h3>
-              <div class="col-md-12">
-			  	<div class="col-md-9"></div>
-			  	<div class="col-md-1">
-			  		<button id="search_btn" type="button" class="btn btn-block btn-primary">
-			  			<i class="fa fa-search"></i>查询
-					</button>
-			  	</div>
-			  	<div class="col-md-2">
-			  		<button id="deploy_btn" type="button" class="btn btn-block btn-primary">
-			  			<i class="fa fa-upload"></i>部署流程定义
-					</button>
-			  	</div>
-			  </div>
+              <form class="form-horizontal">
+              <div class="row">
+	               <div class="col-md-12">
+				  	<div class="col-md-5">
+				  		<div class="form-group">
+						    <label for="def_key" class="col-sm-3 control-label">KEY</label>
+						    <div class="col-sm-9">
+						      <input type="text" class="form-control" id="def_key" placeholder="KEY">
+						    </div>
+					    </div>
+				  	</div>
+				  	<div class="col-md-1">
+				  		<button id="search_btn" type="button" style="width:80px;" class="btn btn-block btn-primary">
+				  			<i class="fa fa-search"></i>查询
+						</button>
+				  	</div>
+				  </div>
+              </div>
+              </form>
+              <div class="row">
+				  <div class="col-md-12">
+				 	 <div class="col-md-2">
+				 	 	<button id="deploy_btn" type="button" class="btn btn-block btn-primary">
+				  			<i class="fa fa-upload"></i>部署流程定义
+						</button>
+				 	 </div>
+				 	 <div class="col-md-2">
+				 	 	<button id="scan_def_xml_btn" type="button" class="btn btn-block btn-primary">
+				  			<i class="fa fa-file-code-o"></i>查看XML
+						</button>
+				 	 </div>
+				 	 <div class="col-md-2">
+				 	 	<button id="scan_def_img_btn" type="button" class="btn btn-block btn-primary">
+				  			<i class="fa fa-file-image-o"></i>查看图片
+						</button>
+				 	 </div>
+				 	 <div class="col-md-2">
+				 	 	<button id="config_def_btn" type="button" class="btn btn-block btn-primary">
+				  			<i class="fa fa-cog"></i>配置流程定义
+						</button>
+				 	 </div>	
+				  </div>              
+              </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
 			  <table id="process_def_table" class="table table-bordered table-hover dataTable">
 			    <thead>
 				    <tr>
+				      <th>&nbsp;</th>
 				      <th>流程定义ID</th>
 				      <th>流程部署ID</th>
 				      <th>名称</th>
 				      <th>KEY</th>
 				      <th>版本</th>
 				      <th>XML</th>
-				      <th>图片</th>
 				      <th>部署时间</th>
 				    </tr>
 			    </thead>
 			    <tbody>
 				    <tr th:each="pd:${page.list}">
+				      <td>
+				      	<input type="radio" name="selRadio" th:value="${pd.processDefinitionId}" 
+				      		th:attr="pdKey=${pd.key},deployId=${pd.deploymentId},resourceName=${pd.resourceName},diagramResourceName=${pd.diagramResourceName}">
+				      </td>
 				      <td th:text="${pd.processDefinitionId}"></td>
 				      <td th:text="${pd.deploymentId}"></td>
 				      <td th:text="${pd.name}"></td>
 				      <td th:text="${pd.key}"></td>
 				      <td th:text="${pd.version}"></td>
 				      <td th:text="${pd.resourceName}"></td>
-				      <td th:text="${pd.diagramResourceName}"></td>
 				      <td th:text="${#dates.format(pd.deploymentTime,'yyyy-MM-dd HH:mm:ss')}"></td>
 				    </tr>
 			    </tbody>
+			    <tfoot>
+			    	<tr>
+			    		<td colspan="7">
+			    			 <div class="page">
+						        <ul id="process_def_pagination" class="pagination"  th:attr="currentPage=${page.pageNum},totalPage=${page.pages}"></ul>
+						    </div>
+			    		</td>
+			    	</tr>
+			    </tfoot>
 			  </table>
 			</div>
 			<!-- /.box-body -->

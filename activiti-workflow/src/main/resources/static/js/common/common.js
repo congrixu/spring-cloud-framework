@@ -56,7 +56,13 @@ window.load = function(url, data, toEl, callback) {
 
 window.loadTable = function(url, data) {
   openLoading();
-  load(url, data, $("#main_content"), function() {
+  
+  var param = data;
+  if(typeof data == 'functon'){
+    param = data();
+  }
+  
+  load(url, param, $("#main_content"), function() {
     closeLoading();
   });
 }
