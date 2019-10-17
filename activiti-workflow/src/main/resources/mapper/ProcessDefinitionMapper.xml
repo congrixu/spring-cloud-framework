@@ -16,10 +16,10 @@
 	LEFT JOIN act_re_deployment dep ON def.DEPLOYMENT_ID_ = dep.ID_
 	WHERE
 		1 = 1
-	  <if test="key !=null ">
+	  <if test="key != null ">
 	  AND def.KEY_ LIKE "%"#{key}"%"
 	  </if>
-	  <if test="realName !=null ">
+	  <if test="name != null ">
 	  AND def.NAME_ LIKE "%"#{name}"%"
 	  </if>
 	ORDER BY dep.DEPLOY_TIME_ DESC
