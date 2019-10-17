@@ -45,7 +45,7 @@ $(function() {
 
   function openDialog(url) {
     url = url + "&noButton=true";
-    window.showModalDialog(url, '详细信息',
+    window.open(url, '详细信息',
         'dialogWidth:1000px;dialogHeight:600px;resizable:yes;minimize:yes;maximize:yes;resizable=yes;status=no');
   }
 
