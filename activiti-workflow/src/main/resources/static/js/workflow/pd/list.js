@@ -42,6 +42,15 @@ $(function() {
       openDialog(url);
     }
   });
+  $("#scan_def_img_btn").click(function() {
+    var $selDom = $("input[type=radio][name=selRadio]:checked");
+    var val = $selDom.val();
+    if (val) {
+      var processDefinitionId = $selDom.attr("processDefinitionId");
+      var url = "/workflow/pd/load-rsource-img?processDefinitionId=" + processDefinitionId ;
+      openDialog(url);
+    }
+  });
 
   function openDialog(url) {
     url = url + "&noButton=true";

@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.servlet.ServletOutputStream;
 
+import org.activiti.bpmn.model.BpmnModel;
+import org.activiti.image.ProcessDiagramGenerator;
+import org.activiti.image.impl.DefaultProcessDiagramGenerator;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -82,6 +85,7 @@ public class ProcessDefinitionController extends BaseController {
      *            或者图片名称(act_re_procdef.DGRM_RESOURCE_NAME_)
      * @throws Exception
      */
+    @ResponseBody // 不加些标注getOutputStream()会报错
     @GetMapping("/load-rsource")
     public void loadResource(@RequestParam String deploymentId,
             @RequestParam String resourceName) throws Exception {
@@ -90,6 +94,29 @@ public class ProcessDefinitionController extends BaseController {
                     .getRepositoryService()
                     .getResourceAsStream(deploymentId, resourceName);
             byte[] byteArray = IOUtils.toByteArray(resourceAsStream);
+            ServletOutputStream servletOutputStream = response
+                    .getOutputStream();
+            servletOutputStream.write(byteArray, 0, byteArray.length);
+            servletOutputStream.flush();
+            servletOutputStream.close();
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * 生成流成图片 （运行中流程图也可以通过ProcessDiagramGenerator实现 有待研究） TODO
+     */
+    @ResponseBody // 不加些标注getOutputStream()会报错
+    @GetMapping("/load-rsource-img")
+    public void loadResourceImg(@RequestParam String processDefinitionId) {
+        try {
+            BpmnModel model = processDefinitionService.getRepositoryService()
+                    .getBpmnModel(processDefinitionId);
+
+            ProcessDiagramGenerator ge = new DefaultProcessDiagramGenerator();
+            InputStream resource = ge.generateDiagram(model, "宋体", "宋体", "宋体");
+            byte[] byteArray = IOUtils.toByteArray(resource);
             ServletOutputStream servletOutputStream = response
                     .getOutputStream();
             servletOutputStream.write(byteArray, 0, byteArray.length);

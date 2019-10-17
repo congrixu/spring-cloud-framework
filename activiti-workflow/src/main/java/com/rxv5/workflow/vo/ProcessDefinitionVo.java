@@ -12,8 +12,6 @@ public class ProcessDefinitionVo implements Serializable {
 
     private static final long serialVersionUID = -1642139075044420874L;
 
-    private String id;
-
     private String processDefinitionId;
 
     private String deploymentId;
@@ -29,14 +27,6 @@ public class ProcessDefinitionVo implements Serializable {
     private String diagramResourceName;
 
     private Date deploymentTime;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getProcessDefinitionId() {
         return processDefinitionId;
@@ -100,6 +90,16 @@ public class ProcessDefinitionVo implements Serializable {
 
     public void setDeploymentTime(Date deploymentTime) {
         this.deploymentTime = deploymentTime;
+    }
+
+    @Override
+    public String toString() {
+        return "ProcessDefinitionVo [processDefinitionId=" + processDefinitionId
+                + ", deploymentId=" + deploymentId + ", name=" + name
+                + ", pdKey=" + pdKey + ", version=" + version
+                + ", resourceName=" + resourceName + ", diagramResourceName="
+                + diagramResourceName + ", deploymentTime=" + deploymentTime
+                + "]";
     }
 
 }
