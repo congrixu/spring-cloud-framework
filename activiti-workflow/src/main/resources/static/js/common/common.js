@@ -61,7 +61,6 @@ window.loadTable = function(url, data) {
   if(typeof data == 'function'){
     param = data();
   }
-  console.log(param)
   load(url, param, $("#main_content"), function() {
     closeLoading();
   });
