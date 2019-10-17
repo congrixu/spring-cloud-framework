@@ -6,7 +6,7 @@
 		def.ID_ AS processDefinitionId,
 		def.DEPLOYMENT_ID_ AS deploymentId,
 		def.NAME_ AS `name`,
-		def.KEY_ AS `key`,
+		def.KEY_ AS `pdKey`,
 		def.VERSION_ AS `version`,
 		def.RESOURCE_NAME_ AS resourceName,
 		def.DGRM_RESOURCE_NAME_ AS diagramResourceName,
@@ -16,11 +16,11 @@
 	LEFT JOIN act_re_deployment dep ON def.DEPLOYMENT_ID_ = dep.ID_
 	WHERE
 		1 = 1
-	  <if test="key != null ">
-	  AND def.KEY_ LIKE "%"#{key}"%"
+	  <if test="pdKey != null ">
+	  AND def.KEY_ LIKE "%${pdKey}%"
 	  </if>
 	  <if test="name != null ">
-	  AND def.NAME_ LIKE "%"#{name}"%"
+	  AND def.NAME_ LIKE "%${name}%"
 	  </if>
 	ORDER BY dep.DEPLOY_TIME_ DESC
   </select>

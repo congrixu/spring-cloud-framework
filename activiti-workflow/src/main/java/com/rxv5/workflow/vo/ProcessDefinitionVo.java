@@ -5,102 +5,101 @@ import java.util.Date;
 
 /**
  * 流程定义
+ * 
  * @author rxv5
  */
-public class ProcessDefinitionVo implements Serializable{
-	
-	
-	private static final long serialVersionUID = -1642139075044420874L;
+public class ProcessDefinitionVo implements Serializable {
 
-	private String id;
+    private static final long serialVersionUID = -1642139075044420874L;
 
-	private String processDefinitionId;
+    private String id;
 
-	private String deploymentId;
+    private String processDefinitionId;
 
-	private String name;
+    private String deploymentId;
 
-	private String key;
+    private String name;
 
-	private int version;
+    private String pdKey;
 
-	private String resourceName;
+    private int version;
 
-	private String diagramResourceName;
+    private String resourceName;
 
-	private Date deploymentTime;
+    private String diagramResourceName;
 
-	public String getId() {
-		return id;
-	}
+    private Date deploymentTime;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String getProcessDefinitionId() {
-		return processDefinitionId;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setProcessDefinitionId(String processDefinitionId) {
-		this.processDefinitionId = processDefinitionId;
-	}
+    public String getProcessDefinitionId() {
+        return processDefinitionId;
+    }
 
-	public String getDeploymentId() {
-		return deploymentId;
-	}
+    public void setProcessDefinitionId(String processDefinitionId) {
+        this.processDefinitionId = processDefinitionId;
+    }
 
-	public void setDeploymentId(String deploymentId) {
-		this.deploymentId = deploymentId;
-	}
+    public String getDeploymentId() {
+        return deploymentId;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setDeploymentId(String deploymentId) {
+        this.deploymentId = deploymentId;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getKey() {
-		return key;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setKey(String key) {
-		this.key = key;
-	}
+    public String getPdKey() {
+        return pdKey;
+    }
 
-	public int getVersion() {
-		return version;
-	}
+    public void setPdKey(String pdKey) {
+        this.pdKey = pdKey;
+    }
 
-	public void setVersion(int version) {
-		this.version = version;
-	}
+    public int getVersion() {
+        return version;
+    }
 
-	public String getResourceName() {
-		return resourceName;
-	}
+    public void setVersion(int version) {
+        this.version = version;
+    }
 
-	public void setResourceName(String resourceName) {
-		this.resourceName = resourceName;
-	}
+    public String getResourceName() {
+        return resourceName;
+    }
 
-	public String getDiagramResourceName() {
-		return diagramResourceName;
-	}
+    public void setResourceName(String resourceName) {
+        this.resourceName = resourceName;
+    }
 
-	public void setDiagramResourceName(String diagramResourceName) {
-		this.diagramResourceName = diagramResourceName;
-	}
+    public String getDiagramResourceName() {
+        return diagramResourceName;
+    }
 
-	public Date getDeploymentTime() {
-		return deploymentTime;
-	}
+    public void setDiagramResourceName(String diagramResourceName) {
+        this.diagramResourceName = diagramResourceName;
+    }
 
-	public void setDeploymentTime(Date deploymentTime) {
-		this.deploymentTime = deploymentTime;
-	}
-	
-	
+    public Date getDeploymentTime() {
+        return deploymentTime;
+    }
+
+    public void setDeploymentTime(Date deploymentTime) {
+        this.deploymentTime = deploymentTime;
+    }
+
 }

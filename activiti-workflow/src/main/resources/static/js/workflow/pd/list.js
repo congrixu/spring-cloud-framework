@@ -11,12 +11,12 @@ $(function() {
   });
 
   var buildSearchParam = function() {
-    var search = {};
+    var param = {};
     var defKey = $("#def_key").val();
     if (defKey) {
-      search.key = defKey;
+      param['search.pdKey'] = defKey;
     }
-    return search;
+    return param;
   };
 
   ajaxMainContentPage($("#process_def_pagination"), "/workflow/pd/find", buildSearchParam, $("#main_content"));

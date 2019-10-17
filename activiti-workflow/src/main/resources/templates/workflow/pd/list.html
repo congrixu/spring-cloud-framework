@@ -11,7 +11,7 @@
 				  		<div class="form-group">
 						    <label for="def_key" class="col-sm-3 control-label">KEY</label>
 						    <div class="col-sm-9">
-						      <input type="text" class="form-control" id="def_key" placeholder="KEY">
+						      <input type="text" class="form-control" id="def_key" placeholder="KEY" th:value="${search.pdKey}">
 						    </div>
 					    </div>
 				  	</div>
@@ -67,12 +67,12 @@
 				    <tr th:each="pd:${page.list}">
 				      <td>
 				      	<input type="radio" name="selRadio" th:value="${pd.processDefinitionId}" 
-				      		th:attr="pdKey=${pd.key},deployId=${pd.deploymentId},resourceName=${pd.resourceName},diagramResourceName=${pd.diagramResourceName}">
+				      		th:attr="pdKey=${pd.pdKey},deployId=${pd.deploymentId},resourceName=${pd.resourceName},diagramResourceName=${pd.diagramResourceName}">
 				      </td>
 				      <td th:text="${pd.processDefinitionId}"></td>
 				      <td th:text="${pd.deploymentId}"></td>
 				      <td th:text="${pd.name}"></td>
-				      <td th:text="${pd.key}"></td>
+				      <td th:text="${pd.pdKey}"></td>
 				      <td th:text="${pd.version}"></td>
 				      <td th:text="${pd.resourceName}"></td>
 				      <td th:text="${#dates.format(pd.deploymentTime,'yyyy-MM-dd HH:mm:ss')}"></td>

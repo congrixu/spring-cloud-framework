@@ -49,6 +49,7 @@ public class ProcessDefinitionController extends BaseController {
         List<ProcessDefinitionVo> list = mapper.select(search);
         PageInfo<ProcessDefinitionVo> page = new PageInfo<ProcessDefinitionVo>(
                 list);
+        model.addAttribute("search", search);
         model.addAttribute("page", page);
         return "/workflow/pd/list";
     }

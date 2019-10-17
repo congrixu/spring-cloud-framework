@@ -58,10 +58,10 @@ window.loadTable = function(url, data) {
   openLoading();
   
   var param = data;
-  if(typeof data == 'functon'){
+  if(typeof data == 'function'){
     param = data();
   }
-  
+  console.log(param)
   load(url, param, $("#main_content"), function() {
     closeLoading();
   });
