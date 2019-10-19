@@ -1,0 +1,9 @@
+<input type="hidden" id="process_definition_id" th:value="${processDefinitionId}">
+<ul class="nav nav-tabs" id="pd_config_tab"> 
+  <li class="active"><a href="javescript:void(0)" name="configNode">设置节点</a></li> 
+  <li><a href="javascript:void(0)" name="configForm">设置表单</a></li> 
+</ul> 
+<div class="tab-content"> 
+  <div class="tab-pane active" id="pd_config_tab_content">...</div> 
+</div>
+<script th:src="@{js/workflow/pd/config.js}"></script>

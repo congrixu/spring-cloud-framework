@@ -23,6 +23,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.rxv5.workflow.dao.ProcessDefinitionMapper;
 import com.rxv5.workflow.service.ProcessDefinitionService;
+import com.rxv5.workflow.vo.ActivitiVo;
 import com.rxv5.workflow.vo.JsonResult;
 import com.rxv5.workflow.vo.ProcessDefinitionVo;
 
@@ -42,16 +43,12 @@ public class ProcessDefinitionController extends BaseController {
     private ProcessDefinitionService processDefinitionService;
 
     @RequestMapping(value = "/find")
-    public String find(
-            @RequestParam(name = "pageNum", defaultValue = "1") Integer pageNum,
-            @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
-            Model model) {
-        ProcessDefinitionVo search = getBean("search",
-                ProcessDefinitionVo.class);
+    public String find(@RequestParam(name = "pageNum", defaultValue = "1") Integer pageNum,
+            @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize, Model model) {
+        ProcessDefinitionVo search = getBean("search", ProcessDefinitionVo.class);
         PageHelper.startPage(pageNum, pageSize);
         List<ProcessDefinitionVo> list = mapper.select(search);
-        PageInfo<ProcessDefinitionVo> page = new PageInfo<ProcessDefinitionVo>(
-                list);
+        PageInfo<ProcessDefinitionVo> page = new PageInfo<ProcessDefinitionVo>(list);
         model.addAttribute("search", search);
         model.addAttribute("page", page);
         return "/workflow/pd/list";
@@ -87,15 +84,12 @@ public class ProcessDefinitionController extends BaseController {
      */
     @ResponseBody // 不加些标注getOutputStream()会报错
     @GetMapping("/load-rsource")
-    public void loadResource(@RequestParam String deploymentId,
-            @RequestParam String resourceName) throws Exception {
+    public void loadResource(@RequestParam String deploymentId, @RequestParam String resourceName) throws Exception {
         try {
-            InputStream resourceAsStream = processDefinitionService
-                    .getRepositoryService()
+            InputStream resourceAsStream = processDefinitionService.getRepositoryService()
                     .getResourceAsStream(deploymentId, resourceName);
             byte[] byteArray = IOUtils.toByteArray(resourceAsStream);
-            ServletOutputStream servletOutputStream = response
-                    .getOutputStream();
+            ServletOutputStream servletOutputStream = response.getOutputStream();
             servletOutputStream.write(byteArray, 0, byteArray.length);
             servletOutputStream.flush();
             servletOutputStream.close();
@@ -111,20 +105,43 @@ public class ProcessDefinitionController extends BaseController {
     @GetMapping("/load-rsource-img")
     public void loadResourceImg(@RequestParam String processDefinitionId) {
         try {
-            BpmnModel model = processDefinitionService.getRepositoryService()
-                    .getBpmnModel(processDefinitionId);
+            BpmnModel model = processDefinitionService.getRepositoryService().getBpmnModel(processDefinitionId);
 
             ProcessDiagramGenerator ge = new DefaultProcessDiagramGenerator();
             InputStream resource = ge.generateDiagram(model, "宋体", "宋体", "宋体");
             byte[] byteArray = IOUtils.toByteArray(resource);
-            ServletOutputStream servletOutputStream = response
-                    .getOutputStream();
+            ServletOutputStream servletOutputStream = response.getOutputStream();
             servletOutputStream.write(byteArray, 0, byteArray.length);
             servletOutputStream.flush();
             servletOutputStream.close();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
+    }
+
+    /**
+     * 配置流程定义页面
+     * 
+     * @param processDefinitionId
+     * @return
+     */
+    @RequestMapping("/to-config")
+    public String config(@RequestParam String processDefinitionId, Model model) {
+        model.addAttribute("processDefinitionId", processDefinitionId);
+        return "/workflow/pd/config";
+    }
+
+    /**
+     * 查询流程定义各节点信息
+     * 
+     * @param processDefinitionId
+     * @return
+     */
+    @RequestMapping("/find-pd-bpmn")
+    public String findProcessDefinitionBPMN(@RequestParam String processDefinitionId, Model model) {
+        List<ActivitiVo> list = processDefinitionService.findProcessDefinitionBPMN(processDefinitionId);
+        model.addAttribute("bpmns", list);
+        return "/workflow/pd/bpmn";
     }
 
 }

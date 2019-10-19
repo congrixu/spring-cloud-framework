@@ -47,8 +47,19 @@ $(function() {
     var val = $selDom.val();
     if (val) {
       var processDefinitionId = $selDom.attr("processDefinitionId");
-      var url = "/workflow/pd/load-rsource-img?processDefinitionId=" + processDefinitionId ;
+      var url = "/workflow/pd/load-rsource-img?processDefinitionId=" + processDefinitionId;
       openDialog(url);
+    }
+  });
+
+  $("#config_def_btn").click(function() {
+    var $selDom = $("input[type=radio][name=selRadio]:checked");
+    var val = $selDom.val();
+    if (val) {
+      var processDefinitionId = $selDom.attr("processDefinitionId");
+      loadTable("/workflow/pd/to-config", {
+        processDefinitionId : processDefinitionId
+      });
     }
   });
 

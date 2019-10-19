@@ -56,9 +56,9 @@ window.load = function(url, data, toEl, callback) {
 
 window.loadTable = function(url, data) {
   openLoading();
-  
+
   var param = data;
-  if(typeof data == 'function'){
+  if (typeof data == 'function') {
     param = data();
   }
   load(url, param, $("#main_content"), function() {
@@ -102,7 +102,8 @@ String.prototype.startWith = function(str) {
 }
 
 window.alertMsg = function(msg, title) {
-
+  var t = title || "";
+  alert(msg);
 }
 
 window.confirmMsg = function(msg, title, callback) {
