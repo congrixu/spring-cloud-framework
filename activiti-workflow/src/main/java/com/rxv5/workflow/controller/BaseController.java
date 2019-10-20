@@ -16,72 +16,77 @@ import com.rxv5.workflow.util.TypeConverter;
 
 public class BaseController {
 
-	protected Logger logger = LoggerFactory.getLogger(getClass());
+    protected Logger logger = LoggerFactory.getLogger(getClass());
 
-	@Autowired
-	protected HttpServletRequest request;
+    protected final String DEFAULT_PAGE_NUM = "1";
+    protected final String DEFAULT_PAGE_SIZE = "10";
 
-	@Autowired
-	protected HttpServletResponse response;
+    @Autowired
+    protected HttpServletRequest request;
 
-	public HttpServletRequest getRequest() {
-		return request;
-	}
+    @Autowired
+    protected HttpServletResponse response;
 
-	public void setRequest(HttpServletRequest request) {
-		this.request = request;
-	}
+    public HttpServletRequest getRequest() {
+        return request;
+    }
 
-	public HttpServletResponse getResponse() {
-		return response;
-	}
+    public void setRequest(HttpServletRequest request) {
+        this.request = request;
+    }
 
-	public void setResponse(HttpServletResponse response) {
-		this.response = response;
-	}
+    public HttpServletResponse getResponse() {
+        return response;
+    }
 
-	@SuppressWarnings("unchecked")
-	public <T> T getBean(String name, Class<T> clazz) {
+    public void setResponse(HttpServletResponse response) {
+        this.response = response;
+    }
 
-		Object bean = createInstance(clazz);
-		String beanNameAndDot = StringUtils.isNotBlank(name) ? name + "." : null;
-		Map<String, String[]> parasMap = request.getParameterMap();
-		Method[] methods = clazz.getMethods();
-		for (Method method : methods) {
-			String methodName = method.getName();
-			if (methodName.startsWith("set") == false || methodName.length() <= 3) { // only setter method
-				continue;
-			}
-			Class<?>[] types = method.getParameterTypes();
-			if (types.length != 1) { // only one parameter
-				continue;
-			}
+    @SuppressWarnings("unchecked")
+    public <T> T getBean(String name, Class<T> clazz) {
 
-			String attrName = StrKit.firstCharToLowerCase(methodName.substring(3));
-			String paraName = beanNameAndDot != null ? beanNameAndDot + attrName : attrName;
-			String paraNameOper = name != null ? name + "[" + attrName + "]" : attrName;
-			if (parasMap.containsKey(paraName) || parasMap.containsKey(paraNameOper)) {
-				try {
-					String paraValue = request.getParameter(paraName);
-					if (paraValue == null)
-						paraValue = request.getParameter(paraNameOper);
-					Object value = paraValue != null ? TypeConverter.convert(types[0], paraValue) : null;
-					method.invoke(bean, value);
-				} catch (Exception e) {
-					logger.warn(e.getMessage(), e);
-				}
-			}
-		}
+        Object bean = createInstance(clazz);
+        String beanNameAndDot = StringUtils.isNotBlank(name) ? name + "." : null;
+        Map<String, String[]> parasMap = request.getParameterMap();
+        Method[] methods = clazz.getMethods();
+        for (Method method : methods) {
+            String methodName = method.getName();
+            if (methodName.startsWith("set") == false || methodName.length() <= 3) { // only
+                                                                                     // setter
+                                                                                     // method
+                continue;
+            }
+            Class<?>[] types = method.getParameterTypes();
+            if (types.length != 1) { // only one parameter
+                continue;
+            }
 
-		return (T) bean;
-	}
+            String attrName = StrKit.firstCharToLowerCase(methodName.substring(3));
+            String paraName = beanNameAndDot != null ? beanNameAndDot + attrName : attrName;
+            String paraNameOper = name != null ? name + "[" + attrName + "]" : attrName;
+            if (parasMap.containsKey(paraName) || parasMap.containsKey(paraNameOper)) {
+                try {
+                    String paraValue = request.getParameter(paraName);
+                    if (paraValue == null)
+                        paraValue = request.getParameter(paraNameOper);
+                    Object value = paraValue != null ? TypeConverter.convert(types[0], paraValue) : null;
+                    method.invoke(bean, value);
+                } catch (Exception e) {
+                    logger.warn(e.getMessage(), e);
+                }
+            }
+        }
 
-	private static <T> T createInstance(Class<T> objClass) {
-		try {
-			return objClass.newInstance();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
+        return (T) bean;
+    }
+
+    private static <T> T createInstance(Class<T> objClass) {
+        try {
+            return objClass.newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

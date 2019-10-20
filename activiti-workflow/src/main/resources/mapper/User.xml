@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rxv5.workflow.dao.UserMapper">
+  <select id="select"  resultType="com.rxv5.workflow.entity.User" >
+	SELECT
+		*
+	FROM
+		v_bpmn_user u
+	WHERE
+		1 = 1
+	  <if test="userId != null ">
+	  AND u.user_id "%${userId}%"
+	  </if>
+	  <if test="userName != null ">
+	  AND u.user_name LIKE "%${userName}%"
+	  </if>
+  </select>
+</mapper>
+

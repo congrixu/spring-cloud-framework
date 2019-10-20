@@ -19,7 +19,7 @@ $(function() {
     return param;
   };
 
-  ajaxMainContentPage($("#process_def_pagination"), "/workflow/pd/find", buildSearchParam, $("#main_content"));
+  ajaxPage($("#process_def_pagination"), "/workflow/pd/find", buildSearchParam, $("#main_content"));
 
   $("#search_btn").click(function() {
     loadTable("/workflow/pd/find", buildSearchParam);

@@ -1,0 +1,77 @@
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box">
+			    <div class="box-header">
+	              <h3 class="box-title">用户列表</h3>
+	              <form class="form-horizontal" id="choose_user_search_form">
+		              <div class="row">
+			               <div class="col-md-12">
+						  	<div class="col-md-5">
+						  		<div class="form-group">
+								    <label for="def_key" class="col-sm-3 control-label">用户ID</label>
+								    <div class="col-sm-9">
+								      <input type="text" class="form-control" id="user_id" placeholder="用户ID" th:value="${userId}">
+								    </div>
+							    </div>
+						  	</div>
+						  	<div class="col-md-5">
+						  		<div class="form-group">
+								    <label for="def_key" class="col-sm-3 control-label">用户名</label>
+								    <div class="col-sm-9">
+								      <input type="text" class="form-control" id="user_name" placeholder="用户名" th:value="${userName}">
+								    </div>
+							    </div>
+						  	</div>
+						  	<div class="col-md-1">
+						  		<button id="search_btn" type="button" style="width:80px;" class="btn btn-block btn-primary">
+						  			<i class="fa fa-search"></i>查询
+								</button>
+						  	</div>
+						  </div>
+		              </div>
+	              </form>
+	            </div>
+	            <!-- /.box-header -->
+	            <div class="box-body">
+				  <table id="choose_user_table" class="table table-bordered table-hover dataTable">
+				  	<colgroup>
+				  		<col width="30px;">
+				  		<col width="100px;">
+				  		<col width="">
+				  	</colgroup>
+				    <thead>
+					    <tr>
+					      <th>&nbsp;</th>
+					      <th>用户ID</th>
+					      <th>用户名称</th>
+					    </tr>
+				    </thead>
+				    <tbody>
+					    <tr th:each="user:${users.list}">
+					      <td>
+					      	<input type="checkbox" th:if="${mutl}" name="chooseUser" th:value="${user.UserId}" th:userName="${user.userName}">
+					      	<input type="radio" th:if="${!mutl}" name="chooseUser" th:value="${user.UserId}" th:userName="${user.userName}">
+					      </td>
+					      <td th:text="${user.userId}"></td>
+					      <td th:text="${user.userName}"></td>
+					    </tr>
+				    </tbody>
+				    <tfoot>
+				    	<tr>
+				    		<td colspan="3">
+				    			 <div class="pull-right">
+							        <ul id="choose_user_pagination" class="pagination"  th:attr="currentPage=${users.pageNum},totalPage=${users.pages}"></ul>
+							    </div>
+				    		</td>
+				    	</tr>
+				    </tfoot>
+				  </table>
+				</div>
+				<!-- /.box-body -->
+			</div>
+			<!-- /.box -->
+		</div>
+	</div>
+</section>
+<script th:src="@{js/workflow/user/choose_list.js}"></script>

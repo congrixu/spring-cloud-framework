@@ -56,7 +56,7 @@ function initPageOption(paginationEl, opts) {
   return options;
 }
 
-window.ajaxMainContentPage = function(paginationEl, url, params, loadToEl, opts) {
+window.ajaxPage = function(paginationEl, url, params, loadToEl, opts) {
 
   var options = initPageOption(paginationEl, opts);
 
