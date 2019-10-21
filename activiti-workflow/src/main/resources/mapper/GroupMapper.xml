@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rxv5.workflow.dao.GroupMapper">
+  <select id="select"  resultType="com.rxv5.workflow.entity.Group" >
+	SELECT
+		*
+	FROM
+		v_bpmn_group g
+	WHERE
+		1 = 1
+	  <if test="groupId != null ">
+	  AND g.group_id LIKE "%${groupId}%"
+	  </if>
+	  <if test="groupName != null ">
+	  AND u.group_name LIKE "%${groupName}%"
+	  </if>
+  </select>
+  <insert id="save" parameterType="com.rxv5.workflow.vo.PDGroupConfigVo" useGeneratedKeys="true" keyProperty="id"  >
+	INSERT INTO t_bpmn_pd_group_config (
+		process_definition_id,
+		bpmn_id,
+		group_id,
+		group_name
+	)
+	VALUES
+	(
+		#{processDefinitionId},#{bpmnId},#{groupId},#{groupName}
+	)
+  </insert>
+</mapper>
+

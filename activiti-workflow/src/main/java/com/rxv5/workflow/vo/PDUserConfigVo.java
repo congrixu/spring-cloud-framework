@@ -1,4 +1,4 @@
-package com.rxv5.workflow.entity;
+package com.rxv5.workflow.vo;
 
 import java.io.Serializable;
 
@@ -6,7 +6,7 @@ import java.io.Serializable;
  * 流程定义用户任务设置办理人配置
  *
  */
-public class ProcessDefinitionTaskUserConfigEntity implements Serializable {
+public class PDUserConfigVo implements Serializable {
 
     private static final long serialVersionUID = -4694537948419288850L;
     private Integer id;

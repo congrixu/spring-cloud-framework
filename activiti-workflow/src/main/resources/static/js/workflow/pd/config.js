@@ -11,12 +11,12 @@ $(function() {
   });
 
   function loadPD() {
-    var url = "/workflow/pd/find-pd-bpmn";
+    var url = "/workflow/pd/find-bpmn";
     loadData(url);
   }
 
   function loadForm() {
-    var url = "/workflow/pd/find-pd-bpmn";
+    var url = "";
     loadData(url);
   }
 

@@ -9,15 +9,28 @@ import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.bpmn.model.FlowElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.rxv5.workflow.dao.PDConfigGroupMapper;
+import com.rxv5.workflow.dao.PDConfigUserMapper;
 import com.rxv5.workflow.vo.ActivitiVo;
+import com.rxv5.workflow.vo.PDGroupConfigVo;
+import com.rxv5.workflow.vo.PDUserConfigVo;
+import com.rxv5.workflow.vo.PDUserGroupConfigVo;
 
 @Service
 public class ProcessDefinitionService extends WorkflowService {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    private PDConfigUserMapper configUserMapper;
+
+    @Autowired
+    private PDConfigGroupMapper configGroupMapper;
 
     public boolean deploy(MultipartFile file) {
         boolean result = false;
@@ -71,6 +84,47 @@ public class ProcessDefinitionService extends WorkflowService {
             }
         }
         return result;
+    }
 
+    @Transactional(rollbackFor = Exception.class)
+    public void saveBpmnConfigUserGroup(String processDefinitionId, List<PDUserGroupConfigVo> userGroupConfig)
+            throws Exception {
+
+        configGroupMapper.deleteTaskGroupConfigByProcessDefinitionId(processDefinitionId);
+        configUserMapper.deleteTaskUserConfigByProcessDefinitionId(processDefinitionId);
+        for (PDUserGroupConfigVo config : userGroupConfig) {
+            String bpmnId = config.getBpmnId();
+            String userIds = config.getUserIds();
+            String userNams = config.getUserName();
+            String groupIds = config.getGroupIds();
+            String groupNames = config.getGroupNames();
+
+            if (groupIds != null && groupIds.trim().length() > 0) {
+                String[] groupIdArray = userIds.split(",");
+                String[] groupNameArray = groupNames.split(",");
+                for (int i = 0; i < groupIdArray.length; i++) {
+                    PDGroupConfigVo groupConfig = new PDGroupConfigVo();
+                    groupConfig.setBpmnId(bpmnId);
+                    groupConfig.setProcessDefinitionId(processDefinitionId);
+                    groupConfig.setGroupId(groupIdArray[i]);
+                    groupConfig.setGroupName(groupNameArray[i]);
+                    configGroupMapper.save(groupConfig);
+                }
+
+            }
+
+            if (userIds != null && userIds.trim().length() > 0) {
+                String[] userIdArray = userIds.split(",");
+                String[] userNameArray = userNams.split(",");
+                for (int i = 0; i < userIdArray.length; i++) {
+                    PDUserConfigVo userConfig = new PDUserConfigVo();
+                    userConfig.setBpmnId(bpmnId);
+                    userConfig.setProcessDefinitionId(processDefinitionId);
+                    userConfig.setUserId(userIdArray[i]);
+                    userConfig.setUserName(userNameArray[i]);
+                    configUserMapper.save(userConfig);
+                }
+            }
+        }
     }
 }

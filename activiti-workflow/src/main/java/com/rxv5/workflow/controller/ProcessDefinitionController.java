@@ -23,8 +23,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.rxv5.workflow.dao.ProcessDefinitionMapper;
 import com.rxv5.workflow.service.ProcessDefinitionService;
+import com.rxv5.workflow.util.FastjsonUtil;
 import com.rxv5.workflow.vo.ActivitiVo;
 import com.rxv5.workflow.vo.JsonResult;
+import com.rxv5.workflow.vo.PDUserGroupConfigVo;
 import com.rxv5.workflow.vo.ProcessDefinitionVo;
 
 /**
@@ -137,11 +139,31 @@ public class ProcessDefinitionController extends BaseController {
      * @param processDefinitionId
      * @return
      */
-    @RequestMapping("/find-pd-bpmn")
+    @RequestMapping("/find-bpmn")
     public String findProcessDefinitionBPMN(@RequestParam String processDefinitionId, Model model) {
         List<ActivitiVo> list = processDefinitionService.findProcessDefinitionBPMN(processDefinitionId);
         model.addAttribute("bpmns", list);
         return "/workflow/pd/bpmn";
+    }
+
+    /**
+     * 保存用户任务的人员\人员组配置信息
+     * 
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/save-config-usergroup")
+    public boolean saveDefinitionActivitisConfigUser(@RequestParam String processDefinitionId,
+            @RequestParam String ugConfigJson) throws Exception {
+        boolean bool = true;
+        try {
+            List<PDUserGroupConfigVo> userGroupConfig = FastjsonUtil.json2ObjList(ugConfigJson,
+                    PDUserGroupConfigVo.class);
+            processDefinitionService.saveBpmnConfigUserGroup(processDefinitionId, userGroupConfig);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+        return bool;
     }
 
 }
