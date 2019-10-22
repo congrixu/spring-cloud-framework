@@ -2,7 +2,9 @@ package com.rxv5.workflow.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipInputStream;
 
 import org.activiti.bpmn.model.BpmnModel;
@@ -80,8 +82,49 @@ public class ProcessDefinitionService extends WorkflowService {
                 vo.setId(e.getId());
                 vo.setName(e.getName());
                 vo.setType(type);
+                if ("UserTask".equals(type)) {
+                    Map<String, String> uc = getUserInfo(processDefinitionId, e.getId());
+                    vo.setUserIds(uc.get("userIds"));
+                    vo.setUserNames(uc.get("userNames"));
+
+                    Map<String, String> gc = getGroupInfo(processDefinitionId, e.getId());
+                    vo.setGroupIds(gc.get("groupIds"));
+                    vo.setGroupNames(gc.get("groupNames"));
+                }
                 result.add(vo);
             }
+        }
+        return result;
+    }
+
+    private Map<String, String> getUserInfo(String processDefinitionId, String bpmnId) {
+        Map<String, String> result = new HashMap<String, String>();
+        List<PDUserConfigVo> list = configUserMapper.select(processDefinitionId, bpmnId);
+        if (list != null && list.size() > 0) {
+            StringBuffer ids = new StringBuffer();
+            StringBuffer names = new StringBuffer();
+            for (PDUserConfigVo uc : list) {
+                ids.append(uc.getUserId()).append(",");
+                names.append(uc.getUserName()).append(",");
+            }
+            result.put("userIds", ids.toString());
+            result.put("userNames", names.toString());
+        }
+        return result;
+    }
+
+    private Map<String, String> getGroupInfo(String processDefinitionId, String bpmnId) {
+        Map<String, String> result = new HashMap<String, String>();
+        List<PDGroupConfigVo> list = configGroupMapper.select(processDefinitionId, bpmnId);
+        if (list != null && list.size() > 0) {
+            StringBuffer ids = new StringBuffer();
+            StringBuffer names = new StringBuffer();
+            for (PDGroupConfigVo uc : list) {
+                ids.append(uc.getGroupId()).append(",");
+                names.append(uc.getGroupName()).append(",");
+            }
+            result.put("groupIds", ids.toString());
+            result.put("groupNames", names.toString());
         }
         return result;
     }
@@ -95,7 +138,7 @@ public class ProcessDefinitionService extends WorkflowService {
         for (PDUserGroupConfigVo config : userGroupConfig) {
             String bpmnId = config.getBpmnId();
             String userIds = config.getUserIds();
-            String userNams = config.getUserName();
+            String userNams = config.getUserNames();
             String groupIds = config.getGroupIds();
             String groupNames = config.getGroupNames();
 

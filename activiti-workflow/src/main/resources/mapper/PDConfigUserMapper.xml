@@ -20,5 +20,14 @@
 		#{processDefinitionId},#{bpmnId},#{userId},#{userName}
 	)
   </insert>
+  <select id="select" parameterType="java.lang.String" resultType="com.rxv5.workflow.vo.PDUserConfigVo">
+	SELECT
+		*
+	FROM
+		t_bpmn_pd_user_config
+	WHERE
+		process_definition_id = #{processDefinitionId}
+	AND bpmn_id = #{bpmnId}
+  </select>
 </mapper>
 

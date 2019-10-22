@@ -12,7 +12,7 @@ public class PDUserGroupConfigVo implements Serializable {
 
     private String bpmnId;
     private String userIds;
-    private String userName;
+    private String userNames;
     private String groupIds;
     private String groupNames;
 
@@ -32,12 +32,12 @@ public class PDUserGroupConfigVo implements Serializable {
         this.userIds = userIds;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUserNames() {
+        return userNames;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserNames(String userNames) {
+        this.userNames = userNames;
     }
 
     public String getGroupIds() {

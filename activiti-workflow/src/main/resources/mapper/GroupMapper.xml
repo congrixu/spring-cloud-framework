@@ -15,17 +15,5 @@
 	  AND u.group_name LIKE "%${groupName}%"
 	  </if>
   </select>
-  <insert id="save" parameterType="com.rxv5.workflow.vo.PDGroupConfigVo" useGeneratedKeys="true" keyProperty="id"  >
-	INSERT INTO t_bpmn_pd_group_config (
-		process_definition_id,
-		bpmn_id,
-		group_id,
-		group_name
-	)
-	VALUES
-	(
-		#{processDefinitionId},#{bpmnId},#{groupId},#{groupName}
-	)
-  </insert>
 </mapper>
 

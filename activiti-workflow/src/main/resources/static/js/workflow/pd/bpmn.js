@@ -93,13 +93,13 @@ $(function() {
       config.groupIds = groupIds;
       config.groupNames = groupNames;
 
-      ugConfig.push.push(config);
+      ugConfig.push(config);
     });
 
     var param = {};
     param.processDefinitionId = $("#process_definition_id").val();
     param.ugConfigJson = JSON.stringify(ugConfig);//转换JSON字符串
-    ajax("post", "save-config-usergroup", param, function(data) {
+    ajax("post", "/workflow/pd/save-config-usergroup", param, function(data) {
       if (data) {
         alertMsg("配置成功！");
       } else {

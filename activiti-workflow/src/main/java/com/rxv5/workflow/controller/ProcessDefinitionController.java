@@ -162,6 +162,7 @@ public class ProcessDefinitionController extends BaseController {
             processDefinitionService.saveBpmnConfigUserGroup(processDefinitionId, userGroupConfig);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
+            bool = false;
         }
         return bool;
     }
