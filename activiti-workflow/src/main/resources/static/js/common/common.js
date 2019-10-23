@@ -37,6 +37,26 @@ window.ajax = function(method, url, data, callback, options) {
   $.ajax(options);
 };
 
+window.ajaxBody = function(method, url, data, callback, options) {
+
+  options = options || {};
+
+  options.type = method.toUpperCase();
+  options.url = ctxPath + url;
+  options.data = JSON.stringify(data);
+  options.contentType = "application/json; charset=utf-8";
+  options.dataType = "json";
+  options.success = callback;
+  options.complete = function(xhr, textStatus) {
+    closeLoading()
+    if (!textStatus == 'success') {
+      return;
+    }
+  }
+  openLoading();
+  $.ajax(options);
+};
+
 window.load = function(url, data, toEl, callback) {
   if (!toEl) {
     toEl = $("<div></div>")
@@ -107,5 +127,7 @@ window.alertMsg = function(msg, title) {
 }
 
 window.confirmMsg = function(msg, title, callback) {
-
+  if (confirm('确定要删除吗')) {
+    callback();
+  }
 }

@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,12 +24,14 @@ import org.springframework.web.multipart.MultipartFile;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.rxv5.workflow.dao.ProcessDefinitionMapper;
+import com.rxv5.workflow.dao.WorkflowBindFormMapper;
 import com.rxv5.workflow.service.ProcessDefinitionService;
 import com.rxv5.workflow.util.FastjsonUtil;
 import com.rxv5.workflow.vo.ActivitiVo;
 import com.rxv5.workflow.vo.JsonResult;
 import com.rxv5.workflow.vo.PDUserGroupConfigVo;
 import com.rxv5.workflow.vo.ProcessDefinitionVo;
+import com.rxv5.workflow.vo.WorkflowBindFormVo;
 
 /**
  * 流程定义
@@ -43,6 +47,9 @@ public class ProcessDefinitionController extends BaseController {
 
     @Autowired
     private ProcessDefinitionService processDefinitionService;
+
+    @Autowired
+    private WorkflowBindFormMapper bindFormMapper;
 
     @RequestMapping(value = "/find")
     public String find(@RequestParam(name = "pageNum", defaultValue = "1") Integer pageNum,
@@ -165,6 +172,52 @@ public class ProcessDefinitionController extends BaseController {
             bool = false;
         }
         return bool;
+    }
+
+    /**
+     * 表单绑定列表
+     */
+    @RequestMapping(value = "/query-bind-form")
+    public String queryBindForm(@RequestParam(required = false) String pdKey,
+            @RequestParam(name = "pageNum", defaultValue = "1") Integer pageNum,
+            @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize, Model model) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<WorkflowBindFormVo> list = bindFormMapper.select(pdKey);
+        PageInfo<WorkflowBindFormVo> page = new PageInfo<WorkflowBindFormVo>(list);
+        model.addAttribute("page", page);
+        model.addAttribute("pdKey", pdKey);
+        return "/workflow/pd/bind-form-list";
+    }
+
+    @RequestMapping(value = "/bind-form")
+    public String toAddBindForm() {
+        return "/workflow/pd/bind-form";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/save-bind-form")
+    public boolean saveBindForm(@RequestBody WorkflowBindFormVo bindForm) {
+        boolean result = false;
+        try {
+            bindFormMapper.insert(bindForm);
+            result = true;
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/delete-bind-form/{id}")
+    public boolean deleteBindForm(@PathVariable("id") Integer id) {
+        boolean result = false;
+        try {
+            bindFormMapper.delete(id);
+            result = true;
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+        return result;
     }
 
 }
