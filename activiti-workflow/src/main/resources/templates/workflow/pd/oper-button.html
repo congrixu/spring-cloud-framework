@@ -1,0 +1,50 @@
+<div id="oper_button_modal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">设置操作按钮</h4>
+      </div>
+      <div class="modal-body">
+         <div class="box-body">
+              <form class="form-horizontal">
+              	  <input type="hidden" id="oper_btn_bpmn_id" th:value="${bpmnId}">
+              	  <input type="hidden" id="oper_btn_process_definition_id" th:value="${processDefinitionId}">
+				  <table id="oper_button_table" class="table table-bordered table-hover dataTable">
+				  	<colgroup>
+				  		<col width="30">
+				  		<col width="120">
+				  		<col width="120">
+				  		<col width="">
+				  	</colgroup>
+				    <thead>
+					    <tr>
+					      <th>
+					      	<a class="fa fa-plus-square" id="add_dom_line"></a>
+					      </th>
+					      <th>按钮名称</th>
+					      <th>值</th>
+					      <th>&nbsp;</th>
+					    </tr>
+				    </thead>
+				    <tbody>
+					    <tr th:each="op:${list}">
+					      <td><a class='fa fa-minus-square' name='subA'></a></td>
+					      <td th:text="${op.operTitle}" edit="operTitle"></td>
+					      <td th:text="${op.operValue}" edit="operValue"></td>
+					      <th>&nbsp;</th>
+					    </tr>
+				    </tbody>
+				  </table>
+			  </form>
+			</div>
+			<!-- /.box-body -->
+      </div>
+      <div class="modal-footer">
+        <button id="oper_button_cancel_btn" type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button id="oper_button_submit_btn" type="button" class="btn btn-primary">保存</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script th:src="@{js/workflow/pd/oper-button.js}"></script>

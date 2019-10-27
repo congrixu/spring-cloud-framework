@@ -16,9 +16,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.rxv5.workflow.dao.CompletOperButtonMapper;
 import com.rxv5.workflow.dao.PDConfigGroupMapper;
 import com.rxv5.workflow.dao.PDConfigUserMapper;
 import com.rxv5.workflow.vo.ActivitiVo;
+import com.rxv5.workflow.vo.CompletOperButtonVo;
 import com.rxv5.workflow.vo.PDGroupConfigVo;
 import com.rxv5.workflow.vo.PDUserConfigVo;
 import com.rxv5.workflow.vo.PDUserGroupConfigVo;
@@ -33,6 +35,9 @@ public class ProcessDefinitionService extends WorkflowService {
 
     @Autowired
     private PDConfigGroupMapper configGroupMapper;
+
+    @Autowired
+    private CompletOperButtonMapper completOperButtonMapper;
 
     public boolean deploy(MultipartFile file) {
         boolean result = false;
@@ -167,6 +172,16 @@ public class ProcessDefinitionService extends WorkflowService {
                     userConfig.setUserName(userNameArray[i]);
                     configUserMapper.save(userConfig);
                 }
+            }
+        }
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void saveOperBtn(String processDefinitionId, String bpmnId, List<CompletOperButtonVo> list) {
+        completOperButtonMapper.delete(processDefinitionId, bpmnId);
+        if (list != null && list.size() > 0) {
+            for (CompletOperButtonVo ob : list) {
+                completOperButtonMapper.insert(ob);
             }
         }
     }

@@ -98,7 +98,7 @@ $(function() {
 
     var param = {};
     param.processDefinitionId = $("#process_definition_id").val();
-    param.ugConfigJson = JSON.stringify(ugConfig);//转换JSON字符串
+    param.ugConfigJson = JSON.stringify(ugConfig);// 转换JSON字符串
     ajax("post", "/workflow/pd/save-config-usergroup", param, function(data) {
       if (data) {
         alertMsg("配置成功！");
@@ -108,4 +108,20 @@ $(function() {
     });
   });
 
-})
+  $("#set_oper_button_btn").click(function() {
+    var sel = $("input[name=selRadio]:checked", "#process_def_config_table");
+    if (sel && sel.length > 0) {
+      var bpmnType = $(sel).attr("bpmnType");
+      if ('UserTask' != bpmnType) {
+        alertMsg("只有用户任务才可以配置操作按钮信息！");
+        return false;
+      }
+      var bpmnId = $(sel).val();
+      var processDefinitionId = $("#process_definition_id").val();
+      var param = {};
+      param.bpmnId = bpmnId;
+      param.processDefinitionId = processDefinitionId;
+      load("/workflow/pd/to-oper-button", param, null, null);
+    }
+  });
+});

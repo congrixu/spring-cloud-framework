@@ -23,11 +23,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.rxv5.workflow.dao.CompletOperButtonMapper;
 import com.rxv5.workflow.dao.ProcessDefinitionMapper;
 import com.rxv5.workflow.dao.WorkflowBindFormMapper;
 import com.rxv5.workflow.service.ProcessDefinitionService;
 import com.rxv5.workflow.util.FastjsonUtil;
 import com.rxv5.workflow.vo.ActivitiVo;
+import com.rxv5.workflow.vo.CompletOperButtonVo;
 import com.rxv5.workflow.vo.JsonResult;
 import com.rxv5.workflow.vo.PDUserGroupConfigVo;
 import com.rxv5.workflow.vo.ProcessDefinitionVo;
@@ -50,6 +52,9 @@ public class ProcessDefinitionController extends BaseController {
 
     @Autowired
     private WorkflowBindFormMapper bindFormMapper;
+
+    @Autowired
+    private CompletOperButtonMapper completOperButtonMapper;
 
     @RequestMapping(value = "/find")
     public String find(@RequestParam(name = "pageNum", defaultValue = "1") Integer pageNum,
@@ -167,6 +172,44 @@ public class ProcessDefinitionController extends BaseController {
             List<PDUserGroupConfigVo> userGroupConfig = FastjsonUtil.json2ObjList(ugConfigJson,
                     PDUserGroupConfigVo.class);
             processDefinitionService.saveBpmnConfigUserGroup(processDefinitionId, userGroupConfig);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            bool = false;
+        }
+        return bool;
+    }
+
+    /**
+     * 设置操作按钮页
+     * 
+     * @return
+     */
+    @RequestMapping(value = "/to-oper-button")
+    public String showOperButton(@RequestParam("processDefinitionId") String processDefinitionId,
+            @RequestParam("bpmnId") String bpmnId, Model model) {
+        List<CompletOperButtonVo> list = completOperButtonMapper.select(processDefinitionId, bpmnId);
+        model.addAttribute("bpmnId", bpmnId);
+        model.addAttribute("processDefinitionId", processDefinitionId);
+        model.addAttribute("list", list);
+        return "/workflow/pd/oper-button";
+    }
+
+    /**
+     * 保存操作按钮
+     * 
+     * @param processDefinitionId
+     * @param bpmnId
+     * @param operBtns
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/save-oper-button")
+    public boolean saveOperBtn(@RequestParam String processDefinitionId, @RequestParam String bpmnId,
+            @RequestParam String operBtns) {
+        boolean bool = true;
+        try {
+            List<CompletOperButtonVo> list = FastjsonUtil.json2ObjList(operBtns, CompletOperButtonVo.class);
+            processDefinitionService.saveOperBtn(processDefinitionId, bpmnId, list);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             bool = false;

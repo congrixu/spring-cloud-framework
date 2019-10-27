@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rxv5.workflow.dao.CompletOperButtonMapper">
+  <select id="select"  resultType="com.rxv5.workflow.vo.CompletOperButtonVo" >
+	SELECT
+		*
+	FROM
+		t_bpmn_complet_oper_button 
+	WHERE
+		1 = 1
+	  <if test="processDefinitionId != null ">
+	  AND process_definition_id LIKE "%${processDefinitionId}%"
+	  </if>
+	  <if test="bpmnId != null ">
+	  AND bpmn_id LIKE "%${bpmnId}%"
+	  </if>
+  </select>
+  <delete id="delete">
+	DELETE
+	FROM
+		t_bpmn_complet_oper_button
+	WHERE
+		process_definition_id = #{processDefinitionId}
+	AND bpmn_id = #{bpmnId}
+  </delete>
+  <insert id="insert" parameterType="com.rxv5.workflow.vo.CompletOperButtonVo">
+	INSERT INTO t_bpmn_complet_oper_button (
+		process_definition_id,
+		bpmn_id,
+		oper_title,
+		oper_value
+	)
+	VALUES
+		(
+			#{processDefinitionId},
+			#{bpmnId},
+			#{operTitle},
+			#{operValue}
+		)
+  </insert>
+</mapper>
+
