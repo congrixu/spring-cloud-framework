@@ -1,0 +1,97 @@
+<section class="content">
+<div class="row">
+	<div class="col-xs-12">
+		<div class="box">
+		    <div class="box-header">
+              <h3 class="box-title">流程实例</h3>
+              <form class="form-horizontal">
+              <div class="row">
+	               <div class="col-md-12">
+				  	<div class="col-md-5">
+				  		<div class="form-group">
+						    <label for="def_key" class="col-sm-3 control-label">发起人</label>
+						    <div class="col-sm-9">
+						      <input type="text" class="form-control" id="appl_user_name" placeholder="发起人" th:value="${search.applUserName}">
+						    </div>
+					    </div>
+				  	</div>
+				  	<div class="col-md-1">
+				  		<button id="search_btn" type="button" style="width:80px;" class="btn btn-block btn-primary">
+				  			<i class="fa fa-search">&nbsp;</i>查询
+						</button>
+				  	</div>
+				  </div>
+              </div>
+              </form>
+              <div class="row">
+				  <div class="col-md-12">
+				 	 <div class="col-md-2">
+				 	 	<button id="trace_pi" type="button" class="btn btn-block btn-primary">
+				  			<i class="fa fa-upload">&nbsp;</i>跟踪流程
+						</button>
+				 	 </div>
+				 	 <div class="col-md-2">
+				 	 	<button id="stop_pi" type="button" class="btn btn-block btn-primary">
+				  			<i class="fa fa-exclamation-circle">&nbsp;</i>强制终止
+						</button>
+				 	 </div>
+				  </div>              
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+			  <table id="process_pi_table" class="table table-bordered table-hover dataTable">
+			    <thead>
+				    <tr>
+				      <th>&nbsp;</th>
+				      <th>流程实例ID</th>
+				      <th>发起人</th>
+				      <th>开始时间</th>
+				      <th>结束时间</th>
+				      <th>业务ID</th>
+				      <th>当前节点</th>
+				      <th>当前节点处理人</th>
+				      <th>流程定义版本</th>
+				      <th>流程状态</th>
+				      <th>是否子流程</th>
+				      <th>主流程ID</th>
+				    </tr>
+			    </thead>
+			    <tbody>
+				    <tr th:each="pi:${page.list}">
+				      <td>
+				      	<input type="radio" name="selRadio" th:value="${pi.processInstanceId}">
+				      </td>
+				      <td th:text="${pi.processInstanceId}"></td>
+				      <td th:text="${pi.applUserName}"></td>
+				      <td th:text="${pi.businessKey}"></td>
+				      <td th:text="${pi.pdKey}"></td>
+				      <td th:text="${#dates.format(pi.startDate,'yyyy-MM-dd HH:mm:ss')}"></td>
+				      <td th:text="${#dates.format(pi.endDate,'yyyy-MM-dd HH:mm:ss')}"></td>
+				      <td th:text="${pi.businessKey}"></td>
+				      <td th:text="${pi.currentTaskName}"></td>
+				      <td th:text="${pi.currentTaskAssignee}"></td>
+				      <td th:text="${pi.version}"></td>
+				      <td th:text="${pi.isEnd}"></td>
+				      <td th:text="${pi.isSubProcess}"></td>
+				      <td th:text="${pi.parentProcessId}"></td>
+				    </tr>
+			    </tbody>
+			    <tfoot>
+			    	<tr>
+			    		<td colspan="14">
+			    			 <div class="pull-right">
+						        <ul id="process_pi_pagination" class="pagination"  th:attr="currentPage=${page.pageNum},totalPage=${page.pages}"></ul>
+						    </div>
+			    		</td>
+			    	</tr>
+			    </tfoot>
+			  </table>
+			</div>
+			<!-- /.box-body -->
+		</div>
+		<!-- /.box -->
+	</div>
+</div>
+</section>
+<script th:src="@{js/workflow/pi/list.js}"></script>

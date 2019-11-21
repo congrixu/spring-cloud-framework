@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rxv5.workflow.dao.ProdessInstanceMapper">
+  <select id="select" parameterType="com.rxv5.workflow.vo.WorkflowProcesssInstanceVo" resultType="com.rxv5.workflow.vo.WorkflowProcesssInstanceVo" >
+	SELECT
+		*
+	FROM
+		t_bpmn_pi pi
+	LEFT JOIN v_bpmn_user u ON pi.appl_user_id = u.user_id
+	WHERE
+		1 = 1
+	  <if test="applUserName != null ">
+	  AND u.user_name "%${applUserName}%"
+	  </if>
+	  <if test="startDate != null ">
+	  AND pi.start_date LIKE "#{startDate}"
+	  </if>
+	  <if test="endDate != null ">
+	  AND pi.end_date LIKE "#{endDate}"
+	  </if>
+	ORDER BY pi.start_date ASC
+  </select>
+</mapper>
+
