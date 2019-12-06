@@ -45,6 +45,35 @@
 		<module>authentication-server</module>
 		<module>redis</module>
 	</modules>
+	
+	<!-- 指定不同的配置文件 -->
+	<!-- system-service 工程pom.xml 配置resource指定id -->
+	<!-- mvn clean package -Pint -->
+	<profiles>
+		<profile>
+			<!--不同环境Profile的唯一id -->
+			<id>dev</id>
+			<properties>
+				<!--profiles.active是自定义的字段，自定义字段可以有多个 -->
+				<env>dev</env>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>pro</id>
+			<properties>
+				<env>pro</env>
+			</properties>
+		</profile>
+		<profile>
+			<id>int</id>
+			<properties>
+				<env>int</env>
+			</properties>
+		</profile>
+	</profiles>
 	<dependencies>
 		<!-- 热启动，修改会自动重启 -->
 		<dependency>

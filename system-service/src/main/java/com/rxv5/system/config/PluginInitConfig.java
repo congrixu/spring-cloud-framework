@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 
 import com.rxv5.http.HttpClientConfig;
 import com.rxv5.http.HttpClientUtil;
+import com.rxv5.quartz.config.QuartzConfig;
 
 public class PluginInitConfig {
 
@@ -11,6 +12,12 @@ public class PluginInitConfig {
 	public void initHttpClient() {
 		HttpClientConfig config = HttpClientConfig.init();
 		HttpClientUtil.init(config);
+	}
+	
+	@Bean
+	public void initQuartz() {
+		QuartzConfig qc = new QuartzConfig();
+		qc.start();
 	}
 
 }
