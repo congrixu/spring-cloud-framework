@@ -1,6 +1,8 @@
 package com.rxv5.sso.config;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,10 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.CompositeTokenGranter;
+import org.springframework.security.oauth2.provider.OAuth2RequestFactory;
+import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
@@ -25,6 +31,8 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
 import com.rxv5.sso.exception.CustomWebResponseExceptionTranslator;
+import com.rxv5.sso.granter.MyCustomAuthenticationKeyGenerator;
+import com.rxv5.sso.granter.WeChatTokenGranter;
 import com.rxv5.sso.oauth2.CustomTokenEnhancer;
 import com.rxv5.sso.oauth2.MyRedisTokenStore;
 
@@ -68,7 +76,7 @@ public class AuthenticationServerConfig extends AuthorizationServerConfigurerAda
 				.accessTokenValiditySeconds((int)TimeUnit.MINUTES.toSeconds(expiration))// token有效时间 秒
 				// .authorizedGrantTypes("refresh_token", "password",
 				// "authorization_code")//token模式
-				.authorizedGrantTypes("password","refresh_token")// token模式
+				.authorizedGrantTypes("password","refresh_token", "we_chat")// token模式
 				.scopes("all");// 限制允许的权限配置
 	}
 
@@ -82,7 +90,16 @@ public class AuthenticationServerConfig extends AuthorizationServerConfigurerAda
 		endpoints.accessTokenConverter(accessTokenConverter());
 		endpoints.tokenEnhancer(tokenEnhancerChain());
 		//endpoints.tokenServices(authorizationServerTokenServices());
-
+		List<TokenGranter> tokenGranters = getTokenGranters(endpoints.getTokenServices(),
+				endpoints.getClientDetailsService(), endpoints.getOAuth2RequestFactory());
+		tokenGranters.add(endpoints.getTokenGranter());//添加原有验证类型
+		endpoints.tokenGranter(new CompositeTokenGranter(tokenGranters));
+	}
+	
+	private List<TokenGranter> getTokenGranters(AuthorizationServerTokenServices tokenServices,
+			ClientDetailsService clientDetailsService, OAuth2RequestFactory requestFactory) {
+		WeChatTokenGranter weChat = new WeChatTokenGranter(tokenServices, clientDetailsService, requestFactory);//TODO 需要传入相关业务SERVICE
+		return new ArrayList<>(Arrays.asList(weChat));
 	}
 
 	/**
@@ -115,7 +132,9 @@ public class AuthenticationServerConfig extends AuthorizationServerConfigurerAda
 	public TokenStore tokenStore() {
 		//return new JwtTokenStore(accessTokenConverter());
 		//return new RedisTokenStore(redisConnectionFactory);//报错
-		return new MyRedisTokenStore(redisConnectionFactory);
+		MyRedisTokenStore tokenStore = new MyRedisTokenStore(redisConnectionFactory);
+		tokenStore.setAuthenticationKeyGenerator(new MyCustomAuthenticationKeyGenerator());//不设置 默认走DefaultAuthenticationKeyGenerator。
+		return tokenStore;
 	}
 
 	/**
